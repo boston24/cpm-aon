@@ -1,9 +1,13 @@
-class Node{
+class Node:
 
-    def __init__(self,parents,kids,time,path):
+    def __init__(self,name,parents,kids,time):
+        self.name = name
         self.parents = parents
         self.kids = kids
         self.time = time
-        self.path = path
     
-}
+    def addKids(self,list):
+        self.kids.extend(list)
+        for kid in list:
+            kid.parents.append(self)
+
