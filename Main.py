@@ -3,41 +3,37 @@ from graph import Graph
 from data import *
 
 def getCPM(graph):
-    list = []
+    dict = {}
     for node in graph.listOfNodes:
         if not node.kids:
             path = []
             paths = []
             #print("Node " + str(node.name) + " has no kids")
-            list.append(getCPMlastNode(node,path,paths))
-    return list
+            dict.update(getCPMlastNode(node,path,paths))
+    while len(dict)>1:    
+        del dict[min(dict)]
+    return dict
 
 
 
 def getCPMlastNode(node, path, paths):
     if path:
         correctPath(node,path)
-        #print("\nPath: ")
-        #for i in path:
-        #    print(i.name, end = ", ")
     else:
         path.append(node)
     
     if not node.parents:
-        #print(str(node.name) + " has no parent nodes")
         paths.append(path)
-        return node.time
+        return {node.time : ""}
     else:
         out = []
         for parent in node.parents:
-            #print(str(node.name) + " has parent nodes")
-            out.append(node.time + getCPMlastNode(parent, path,paths))
-        
-    print("\nFinal path: ")
-    for i in paths[out.index(max(out))]:
-        print(i.name, end=", ")
-    print("\n")    
-    return max(out)
+            #print("WYpisuje: " + str(getCPMlastNode(parent, path,paths)))
+            key = next(iter(getCPMlastNode(parent, path,paths)))
+            out.append(node.time + key)
+    
+
+    return {max(out) : [paths[out.index(max(out))]] }
 
 
 def correctPath(node, path):
@@ -50,6 +46,8 @@ def correctPath(node, path):
 
 graph = Graph(list)
 
-for i in getCPM(graph):
-    print(i)
-
+for key, value in getCPM(graph).items():
+    print(key)
+    for i in value:
+        for node in i: 
+            print(node.name, end=" ")
