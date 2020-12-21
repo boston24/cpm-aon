@@ -50,12 +50,13 @@ def correctPath(node, path):
 graph = Graph(list)
 dict = getCPM(graph)
 #dict = getCPMNode(z10,[],[])
-
+path=[]
 
 for key, value in dict.items():
     print(key)
     for i in value:
         for node in i: 
             print(node.name, end=" ")
+            path.append(node.name)
 
-graph.show()            
+graph.show(path)            

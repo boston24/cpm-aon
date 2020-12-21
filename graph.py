@@ -9,7 +9,7 @@ class Graph:
     def __init__(self,listOfNodes):
         self.listOfNodes = listOfNodes
 
-    def show(self):
+    def show(self,path):
         frm = []
         to = []
         for node in self.listOfNodes:
@@ -21,22 +21,30 @@ class Graph:
         df = pd.DataFrame({ 'from':frm, 'to':to})
         G=nx.from_pandas_edgelist(df,'from','to', create_using=nx.DiGraph())
         pos = graphviz_layout(G, prog='dot')
-        nx.draw(G, pos, with_labels=True, node_size=1500, alpha=1, arrows=True)
-        '''nx.draw(
+        #nx.draw(G, pos, with_labels=True, node_size=1500, alpha=1, arrows=True)
+        color_map=[]
+        for node in G:
+            if node in path:
+                color_map.append('red')
+            else:
+                color_map.append('white')
+
+        nx.draw(
             G,
-            node_size=2000,
-            node_color='#0000FF',
-            arrowsize=50,
+            node_size=1500,
+            node_color=color_map,
+            edgecolors='black',
+            arrowsize=10,
             with_labels=True,
-            #labels={n: n for n in gra.nodes},
-            font_color='#FFFFFF',
-            font_size=35,
+            labels={n: n for n in G.nodes},
+            font_color='black',
+            font_size=15,
             pos=nx.drawing.nx_agraph.graphviz_layout(
                 G,
                 prog='dot',
                 args='-Grankdir=LR'
             )
-        )'''
+        )
         plt.show()
     
 
