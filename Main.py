@@ -6,6 +6,7 @@ from node import Node
 from graph import Graph
 from data import *
 from networkx.drawing.nx_agraph import graphviz_layout
+import plotly.express as px
 
 def getCPM(graph):
     dict = {}
@@ -47,16 +48,51 @@ def correctPath(node, path):
         del path[-1]
         return correctPath(node,path)
 
+def makeListForTimetable(list):
+    jobs = []
+    rows = []
+    for i in range(len(list)):
+        free_space = []
+        if i==0:
+            free_space.append(1)
+        node = list[i]
+        time = node.time
+        name=node.name
+        for key,value in getCPMNode(node,[],[]).items():
+            finish=key
+            start=key-node.time
+            if not i==0:  
+                for j in range(i):
+                    node_temp = list[j]
+                    for key,value in getCPMNode(node_temp,[],[]).items():
+                        finish_temp = key
+                    if(start>=finish_temp):
+                        free_space.append(rows[j])
+                    else:
+                        if rows[j] in free_space:
+                            free_space = [i for i in free_space if i != rows[j]]
+            if not free_space:
+                free_space.append(max(rows)+1)
+                rows.append(free_space[0])
+            else:
+                rows.append(free_space[0])
+
+        jobs.append(dict(Name=name, Start=start, Finish=finish, Row=free_space[0], Time=time))
+    
+    return jobs
+
+
 graph = Graph(list)
-dict = getCPM(graph)
-#dict = getCPMNode(z10,[],[])
+cpm = getCPM(graph)
+#cpm = getCPMNode(z10,[],[])
 path=[]
 
-for key, value in dict.items():
+for key, value in cpm.items():
     print(key)
     for i in value:
         for node in i: 
             print(node.name, end=" ")
             path.append(node.name)
 
-graph.show(path)            
+graph.showGraph(path)      
+graph.showTimeline(makeListForTimetable(list))      
