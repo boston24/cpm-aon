@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from node import Node
 from graph import Graph
 from data import *
+from networkx.drawing.nx_agraph import graphviz_layout
 
 def getCPM(graph):
     dict = {}
