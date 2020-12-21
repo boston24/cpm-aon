@@ -1,3 +1,7 @@
+import pandas as pd
+import numpy as np
+import networkx as nx
+import matplotlib.pyplot as plt
 from node import Node
 from graph import Graph
 from data import *
@@ -8,15 +12,14 @@ def getCPM(graph):
         if not node.kids:
             path = []
             paths = []
-            #print("Node " + str(node.name) + " has no kids")
-            dict.update(getCPMlastNode(node,path,paths))
+            dict.update(getCPMNode(node,path,paths))
     while len(dict)>1:    
         del dict[min(dict)]
     return dict
 
 
 
-def getCPMlastNode(node, path, paths):
+def getCPMNode(node, path, paths):
     if path:
         correctPath(node,path)
     else:
@@ -28,8 +31,7 @@ def getCPMlastNode(node, path, paths):
     else:
         out = []
         for parent in node.parents:
-            #print("WYpisuje: " + str(getCPMlastNode(parent, path,paths)))
-            key = next(iter(getCPMlastNode(parent, path,paths)))
+            key = next(iter(getCPMNode(parent, path,paths)))
             out.append(node.time + key)
     
 
@@ -45,9 +47,14 @@ def correctPath(node, path):
         return correctPath(node,path)
 
 graph = Graph(list)
+dict = getCPM(graph)
+#dict = getCPMNode(z10,[],[])
 
-for key, value in getCPM(graph).items():
+
+for key, value in dict.items():
     print(key)
     for i in value:
         for node in i: 
             print(node.name, end=" ")
+
+graph.show()            
