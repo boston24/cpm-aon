@@ -39,6 +39,24 @@ def getCPMNode(node, path, paths):
 
     return {max(out) : [paths[out.index(max(out))]] }
 
+def getCPMNodeMinPatx(node, path, paths):
+    if path:
+        correctPath(node,path)
+    else:
+        path.append(node)
+    
+    if not node.parents:
+        paths.append(path)
+        return {node.time : ""}
+    else:
+        out = []
+        for parent in node.parents:
+            key = next(iter(getCPMNode(parent, path,paths)))
+            out.append(node.time + key)
+    
+
+    return {min(out) : [paths[out.index(min(out))]] }
+
 
 def correctPath(node, path):
     if node in path[-1].parents:
@@ -83,21 +101,30 @@ def makeListForTimetable(list):
 
 
 graph = Graph(list)
+
+''' CPM - MAX PATH '''
 cpm = getCPM(graph)
 #cpm = getCPMNode(z10,[],[])
 path=[]
 
-'''for key, value in cpm.items():
+for key, value in cpm.items():
     print(key)
     for i in value:
         for node in i: 
             print(node.name, end=" ")
-            path.append(node.name)'''
+            path.append(node.name)
 
-if graph.isCyclic():
-    print("A graph is cyclic")
-else:
-    print("A graph is not cyclic")
+''' MIN PATH '''
+'''
+node_min = z19
+print("Shortest path to "+str(node_min.name))
+latest = getCPMNodeMinPatx(node_min,[],[])
+for key, value in latest.items():
+    print(key - node_min.time)
+    for i in value:
+        for node in i:
+            print(node.name, end=" ") 
+'''
 
-#graph.showGraph(path)      
-#graph.showTimeline(makeListForTimetable(list))      
+graph.showGraph(path)      
+graph.showTimeline(makeListForTimetable(list))      

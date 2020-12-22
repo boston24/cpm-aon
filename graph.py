@@ -52,7 +52,7 @@ class Graph:
 
         #print(jobs)
 
-        gnt = plt.subplots() 
+        fig,gnt = plt.subplots() 
 
         maxX = max([x['Finish'] for x in jobs])
         maxRow = max([x['Row'] for x in jobs])
@@ -73,44 +73,4 @@ class Graph:
         plt.show()
         #plt.savefig("gantt1.png") 
 
-    def isCyclicHelper(self,node,nameToCheck):
-        '''if not check:
-            return False
-        else:
-            for kid in node.kids:
-                print("Checking "+str(kid.name)+" with "+str(nameToCheck))
-                if kid.name == nameToCheck:
-                    print("WE GOT A PROBLEM HERE")
-                    return self.isCyclicHelper(False,kid,nameToCheck)
-                else:
-                    print("We gucci")
-                    return self.isCyclicHelper(True,kid,nameToCheck)'''
-        if not node.kids:
-            if node.name == nameToCheck:
-                return False
-            else:
-                return True
-        
-        for kid in node.kids:
-            if kid.name == nameToCheck: 
-                return False
-            else:
-                self.isCyclicHelper(kid,nameToCheck)
-
-    def isCyclic(self):
-        '''for node in self.listOfNodes:
-            print("Checking "+str(node.name))
-            if self.isCyclicHelper(True,node,node.name):
-                print("I'm out this bitch")
-                return False
-        return True'''
-        for node in self.listOfNodes:
-            check = self.isCyclicHelper(node,node.name)
-            print(check)
-            if not check: return False
-        
-        return True
-
-
             
-
