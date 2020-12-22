@@ -15,9 +15,12 @@ def getCPM(graph):
             path = []
             paths = []
             dict.update(getCPMNode(node,path,paths))
-    while len(dict)>1:    
-        del dict[min(dict)]
-    return dict
+    #print("\nMax key: "+str(max(dict, key=int)))
+    max_key = max(dict, key=int)
+    #while len(dict)>1:    
+    #    del dict[min(dict)]
+    #return dict
+    return {max_key:dict[max_key]}
 
 
 
@@ -100,19 +103,31 @@ def makeListForTimetable(list):
     return jobs
 
 
-graph = Graph(list)
+#graph = Graph(list)
+
+''' MAX PATH TO NODE '''
+'''
+node_temp = z19
+print(node_temp.time)
+cpm_temp = getCPMNode(node_temp,[],[])
+for key, value in cpm_temp.items():
+    print(key)
+    for i in value:
+        for node in i:
+            print(node.name, end=" ")
+'''
 
 ''' CPM - MAX PATH '''
 cpm = getCPM(graph)
-#cpm = getCPMNode(z10,[],[])
 path=[]
 
 for key, value in cpm.items():
-    print(key)
+    print("CPM: "+str(key))
     for i in value:
         for node in i: 
             print(node.name, end=" ")
             path.append(node.name)
+
 
 ''' MIN PATH '''
 '''

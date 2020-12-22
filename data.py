@@ -1,4 +1,5 @@
 from node import Node
+from graph import Graph
 
 list = []
 z1 = Node("z1",[],[],3)
@@ -41,6 +42,7 @@ z14.addKids([z18])
 z16.addKids([z19])
 z17.addKids([z19])
 
+list.clear()
 list.append(z1)
 list.append(z2)
 list.append(z3)
@@ -60,3 +62,5 @@ list.append(z16)
 list.append(z17)
 list.append(z18)
 list.append(z19)
+
+graph = Graph(list)

@@ -69,7 +69,7 @@ class Graph:
         for node in jobs:
             gnt.broken_barh([(node["Start"],node["Time"])], (node["Row"]-1,1), facecolors ='tab:blue',edgecolors='black')
             gnt.text(x=node["Start"]+node["Time"]/2, y=node["Row"]-0.5,s=node["Name"],ha='center',va='center',color='black')
-         
+        
         plt.show()
         #plt.savefig("gantt1.png") 
 
