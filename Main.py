@@ -87,12 +87,17 @@ cpm = getCPM(graph)
 #cpm = getCPMNode(z10,[],[])
 path=[]
 
-for key, value in cpm.items():
+'''for key, value in cpm.items():
     print(key)
     for i in value:
         for node in i: 
             print(node.name, end=" ")
-            path.append(node.name)
+            path.append(node.name)'''
 
-graph.showGraph(path)      
-graph.showTimeline(makeListForTimetable(list))      
+if graph.isCyclic():
+    print("A graph is cyclic")
+else:
+    print("A graph is not cyclic")
+
+#graph.showGraph(path)      
+#graph.showTimeline(makeListForTimetable(list))      
