@@ -27,6 +27,9 @@ def getCPM(graph):
 def getCPMNode(node, path, paths):
     if path:
         correctPath(node,path)
+        #print("\nCurrent path:", end=" ")
+        #for i in path:
+        #    print(i.name, end=" ")
     else:
         path.append(node)
     
@@ -42,7 +45,7 @@ def getCPMNode(node, path, paths):
 
     return {max(out) : [paths[out.index(max(out))]] }
 
-def getCPMNodeMinPatx(node, path, paths):
+def getCPMNodeMinPath(node, path, paths):
     if path:
         correctPath(node,path)
     else:
@@ -122,7 +125,7 @@ cpm = getCPM(graph)
 path=[]
 
 for key, value in cpm.items():
-    print("CPM: "+str(key))
+    print("\nCPM: "+str(key))
     for i in value:
         for node in i: 
             print(node.name, end=" ")
@@ -133,7 +136,7 @@ for key, value in cpm.items():
 '''
 node_min = z19
 print("Shortest path to "+str(node_min.name))
-latest = getCPMNodeMinPatx(node_min,[],[])
+latest = getCPMNodeMinPath(node_min,[],[])
 for key, value in latest.items():
     print(key - node_min.time)
     for i in value:
